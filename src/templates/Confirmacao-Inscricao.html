@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmação de Inscrição</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0;">
+    <table width="100%" bgcolor="#f4f4f4" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+            <td align="center">
+                <table width="600px" bgcolor="#ffffff" cellpadding="20" cellspacing="0" border="0" style="border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+                    <tr>
+                        <td align="center">
+                            <h1 style="color: #2c3e50;">Olá, {{nome}}!</h1>
+                            <p style="font-size: 16px; color: #333;">Você se inscreveu com sucesso no curso: <b>{{curso}}</b>.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">
+                            <table width="100%" cellpadding="10" cellspacing="0" border="0">
+                                <tr>
+                                    <td style="text-align: center;">
+                                        <p style="font-size: 18px; font-weight: bold; color: #3498db;">Detalhes do Curso:</p>
+                                        <p><strong>Data:</strong> {{data}}</p>
+                                        <p><strong>Local:</strong> {{local}}</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">
+                            <p style="font-size: 16px; color: #333;">Estamos ansiosos para vê-lo!</p>
+                            <a href="{{link}}" style="display: inline-block; padding: 12px 20px; font-size: 16px; background-color: #3498db; color: #ffffff; text-decoration: none; border-radius: 5px; margin-top: 10px;">Ver detalhes do curso</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" style="padding-top: 20px; font-size: 12px; color: #7f8c8d;">
+                            &copy; 2024 - Cultiva Cursos | Prefeitura do Recife
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

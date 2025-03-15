@@ -1,15 +1,29 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 
 const CourseCard = ({ course }) => {
   return (
-    <div className="bg-white p-4 rounded shadow-md">
-      <h2 className="text-xl font-bold">{course.title}</h2>
-      <p>{course.description}</p>
-      <p>Data: {new Date(course.date).toLocaleDateString()}</p>
-      <p>Local: {course.location}</p>
-      {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
-      <button className="bg-green-600 text-white px-4 py-2 mt-2 rounded">Inscrever-se</button>
-    </div>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, ease: 'easeInOut' }}
+      className="bg-white p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-300"
+    >
+      <h2 className="text-xl font-bold text-gray-800">{course.title}</h2>
+      <p className="text-gray-600">{course.description}</p>
+      <p className="text-sm text-gray-500">📅 {new Date(course.date).toLocaleDateString()}</p>
+      <p className="text-sm text-gray-500">📍 {course.location}</p>
+
+      {/* Botão com animação e feedback visual */}
+      <motion.button
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className="bg-green-600 text-white px-4 py-2 mt-4 rounded-lg w-full transition-all duration-300 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400"
+        aria-label={`Inscrever-se no curso ${course.title}`}
+      >
+        Inscrever-se
+      </motion.button>
+    </motion.div>
   );
 };
 

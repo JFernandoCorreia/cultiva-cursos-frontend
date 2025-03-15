@@ -4,37 +4,41 @@ import React, { createContext, useState, useEffect } from 'react';
 export const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const [isHighContrast, setIsHighContrast] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    return JSON.parse(localStorage.getItem("darkMode")) || false;
+  });
 
-  // Toggle Dark Mode
+  const [isHighContrast, setIsHighContrast] = useState(() => {
+    return JSON.parse(localStorage.getItem("highContrast")) || false;
+  });
+
+  // Alternar Modo Escuro
   const toggleDarkMode = () => {
-    setIsDarkMode((prevMode) => !prevMode);
+    setIsDarkMode((prevMode) => {
+      const newMode = !prevMode;
+      localStorage.setItem("darkMode", JSON.stringify(newMode));
+      return newMode;
+    });
   };
 
-  // Toggle High Contrast
+  // Alternar Alto Contraste
   const toggleHighContrast = () => {
-    setIsHighContrast((prevMode) => !prevMode);
+    setIsHighContrast((prevMode) => {
+      const newMode = !prevMode;
+      localStorage.setItem("highContrast", JSON.stringify(newMode));
+      return newMode;
+    });
   };
 
-  // Apply classes to the body element based on state
+  // Aplicar classes de tema ao <body>
   useEffect(() => {
-    if (isDarkMode) {
-      document.body.classList.add('dark-mode');
-    } else {
-      document.body.classList.remove('dark-mode');
-    }
-
-    if (isHighContrast) {
-      document.body.classList.add('high-contrast');
-    } else {
-      document.body.classList.remove('high-contrast');
-    }
+    document.body.classList.toggle('dark-mode', isDarkMode);
+    document.body.classList.toggle('high-contrast', isHighContrast);
   }, [isDarkMode, isHighContrast]);
 
   return (
     <ThemeContext.Provider value={{ isDarkMode, toggleDarkMode, isHighContrast, toggleHighContrast }}>
-      {children}
+      <div aria-live="polite">{children}</div>
     </ThemeContext.Provider>
   );
 };
