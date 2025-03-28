@@ -1,5 +1,4 @@
 import React from 'react';
-import AccessibilityMenu from '../components/AccessibilityMenu';
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 
@@ -8,49 +7,56 @@ const MainPage = () => {
 
   const APPS = [
     {
-      id: "Hortas",
-      title: t("Hortas"),
-      description: t("Conheça o projeto Hortas, que promove o cultivo sustentável nas comunidades."),
-      image: "/images/hortas.jpeg",
-      link: process.env.REACT_APP_API_URL || "http://localhost:3001/",
+      id: "Cursos",
+      title: t("Cursos"),
+      description: t("Participe dos cursos oferecidos pelo programa Cultiva Cursos."),
+      image: "/images/backimage4.jpg",
+      link: "/home",
     },
     {
       id: "Feiras",
       title: t("Feiras"),
       description: t("Explore as Feiras de produtos locais promovidas pela comunidade."),
-      image: "/images/feiras2.jpg",
-      link: process.env.REACT_APP_API_URL || "http://localhost:3002/",
+      image: "/images/backimage3.jpg",
+      link: process.env.REACT_APP_API_URL || "http://localhost:3001/",
     },
     {
-      id: "Cursos",
-      title: t("Cursos"),
-      description: t("Participe dos cursos oferecidos pelo programa Cultiva Cursos."),
-      image: "/images/cursos2.webp",
-      link: "/home",
+      id: "Hortas",
+      title: t("Hortas"),
+      description: t("Conheça o projeto Hortas, que promove o cultivo sustentável nas comunidades."),
+      image: "/images/backimage.png",
+      link: process.env.REACT_APP_API_URL || "http://localhost:3002/",
     },
   ];
 
   return (
     <div className="relative h-screen flex flex-col">
-      {/* Cabeçalho */}
-      <header className="bg-recifeBlue bg-opacity-100 p-4 shadow-lg">
-        <div className="container mx-auto flex flex-wrap justify-between items-center">
-          <img
-            src={`${process.env.PUBLIC_URL}/images/logo-seau.png`}
-            alt={t("recifePrefeitura")}
-            className="w-32 sm:w-48"
-            loading="lazy"
-          />
+       <header className="bg-recifeBlue bg-opacity-100 p-4 sm:p-4 shadow-lg">
+        <div className="container mx-auto grid grid-cols-1 sm:grid-cols-3 items-center text-center sm:text-left">
+          
+          {/* 🔹 Logo Prefeitura (Esquerda) */}
+          <div className="flex justify-center sm:justify-start mb-2 sm:mb-0">
+            <img
+              src={`${process.env.PUBLIC_URL}/images/logo-seau.png`}
+              alt={t("recifePrefeitura")}
+              className="w-30 sm:w-56 flex-shrink-0"
+              loading="lazy"
+            />
+          </div>
 
-          <h1 className="text-3xl font-bold text-center text-recifeWhite">
-            {t("Flor da Cidade")}
-          </h1>
+          {/* 🔹 Texto "Flor da Cidade" (Centralizado) */}
+          <div className="flex justify-center">
+            <h1 className="text-3xl sm:text-4xl font-bold text-recifeWhite">
+              {t("Flor da Cidade")}
+            </h1>
+          </div>
 
-          <AccessibilityMenu />
+          {/* 🔹 Espaço para alinhamento correto em telas maiores */}
+          <div className="hidden sm:block"></div>
+
         </div>
       </header>
 
-      {/* Corpo principal */}
       <main
         className="flex-grow bg-white bg-opacity-80 p-4 sm:p-8 rounded-lg shadow-lg"
         style={{
@@ -60,7 +66,7 @@ const MainPage = () => {
           backgroundRepeat: "no-repeat",
         }}
       >
-        <h2 className="text-2xl font-bold text-center text-recifeBlue mb-4">
+        <h2 className="text-4xl font-bold text-center text-recifeBlue mb-4">
           Bem vindo ao Projeto Flor da Cidade
         </h2>
 
@@ -98,19 +104,23 @@ const MainPage = () => {
         </motion.div>
       </main>
 
-      {/* Rodapé */}
-      <footer className="bg-recifeBlue bg-opacity-100 p-4 shadow-lg">
-        <div className="container mx-auto flex justify-between items-center">
-          <div className="flex items-center justify-center space-x-1 mx-auto">
-            <p className="text-recifeWhite text-base md:text-lg">
-              &copy; 2024 Prefeitura do Recife
+      <footer className="bg-recifeBlue bg-opacity-100 p-2 sm:p-4 shadow-lg relative mt-auto w-full">
+        <div className="container mx-auto flex flex-col sm:flex-row items-center justify-center sm:justify-between text-center sm:text-left">
+          
+          {/* 🔹 Texto e Logo da Prefeitura */}
+          <div className="flex items-center justify-center space-x-4 mx-auto">
+            <p className="text-recifeWhite text-sm sm:text-base md:text-lg">
+              &copy; 2025 Prefeitura do Recife
             </p>
-
-            <img src={`${process.env.PUBLIC_URL}/images/transferir7.png`} alt="Prefeitura do Recife" className="w-16 h-auto" />
+            <img 
+              src={`${process.env.PUBLIC_URL}/images/transferir7.png`} 
+              alt="Prefeitura do Recife" 
+              className="w-12 sm:w-16 h-auto"
+            />
           </div>
 
-          {/* Redes Sociais */}
-          <div className="flex space-x-3">
+          {/* 🔹 Redes Sociais */}
+          <div className="flex items-center space-x-2 md:space-x-2">
             {[
               { url: "https://www.facebook.com/prefeituradorecife", img: "Facebook_logo.png", alt: "Facebook" },
               { url: "https://x.com/prefrecife", img: "x.png", alt: "X" },
@@ -122,14 +132,16 @@ const MainPage = () => {
                 <img
                   src={`${process.env.PUBLIC_URL}/images/${social.img}`}
                   alt={social.alt}
-                  className="w-6 h-6"
+                  className="w-5 sm:w-5 h-5 sm:h-5"
                   loading="lazy"
                 />
               </a>
             ))}
           </div>
+
         </div>
       </footer>
+
     </div>
   );
 };

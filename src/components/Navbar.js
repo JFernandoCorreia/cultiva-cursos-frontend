@@ -8,14 +8,15 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   // Definição das páginas que devem exibir a Navbar
-  const showNavbar = ['/course', '/register', '/login', '/profile'].includes(location.pathname);
+  const showNavbar = ['/sobre','/course', '/register', '/login', '/profile'].includes(location.pathname);
 
   // Lista de links da navbar
   const navLinks = [
     { to: '/home', label: 'Início' },
-    { to: '/course', label: 'Cursos' },
-    { to: '/login', label: 'Login' },
+    { to: '/login', label: 'Acesso' },
     { to: '/register', label: 'Cadastro' },
+    { to: '/course', label: 'Cursos' },
+    { to: '/sobre', label: 'Sobre' },
   ];
 
   return (
@@ -59,7 +60,7 @@ const Navbar = () => {
             initial={{ opacity: 0, y: -20 }} 
             animate={{ opacity: 1, y: 0 }} 
             transition={{ duration: 0.3 }}
-            className="md:hidden bg-recifeBlue text-recifeWhite p-4 absolute w-full left-0 top-16 shadow-lg"
+            className="md:hidden bg-recifeBlue text-recifeWhite p-4 absolute w-full left-0 top-16 shadow-lg z-50"
           >
             <ul className="space-y-4">
               {navLinks.map((link) => (

@@ -1,7 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const CourseCard = ({ course }) => {
+  const navigate = useNavigate();
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -14,10 +17,11 @@ const CourseCard = ({ course }) => {
       <p className="text-sm text-gray-500">📅 {new Date(course.date).toLocaleDateString()}</p>
       <p className="text-sm text-gray-500">📍 {course.location}</p>
 
-      {/* Botão com animação e feedback visual */}
+      {/* Botão "Inscrever-se" que redireciona para /register */}
       <motion.button
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
+        onClick={() => navigate('/register')}
         className="bg-green-600 text-white px-4 py-2 mt-4 rounded-lg w-full transition-all duration-300 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400"
         aria-label={`Inscrever-se no curso ${course.title}`}
       >

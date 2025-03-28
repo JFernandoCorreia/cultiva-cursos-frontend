@@ -27,21 +27,80 @@ const CoursesPage = () => {
     fetchCourses();
   }, [t]);
 
+  // 🔹 Lista fixa de cursos sobre Agricultura Urbana e Agroecologia
+  const fixedCourses = [
+    {
+      id: 'curso1',
+      title: 'Introdução à Agricultura Urbana',
+      description: 'Aprenda os conceitos básicos e a importância da agricultura urbana para cidades sustentáveis.',
+      image: `${process.env.PUBLIC_URL}/images/agricultura.jpg`,
+    },
+    {
+      id: 'curso2',
+      title: 'Cultivo de Hortas Urbanas',
+      description: 'Curso prático sobre o cultivo de hortaliças em pequenos espaços, como quintais e varandas.',
+      image: `${process.env.PUBLIC_URL}/images/hortas.webp`,
+    },
+    {
+      id: 'curso3',
+      title: 'Técnicas de Compostagem',
+      description: 'Descubra como transformar resíduos orgânicos em adubo natural para fortalecer sua horta.',
+      image: `/images/compostagem.jpg`,
+    },
+    {
+      id: 'curso4',
+      title: 'Agroecologia e Sustentabilidade',
+      description: 'Aprenda sobre práticas agroecológicas para produção de alimentos sem impacto ambiental.',
+      image: `/images/agroecologia.jpg`,
+    },
+    {
+      id: 'curso5',
+      title: 'Controle Natural de Pragas',
+      description: 'Métodos orgânicos para proteger sua horta contra pragas sem o uso de produtos químicos.',
+      image: `/images/controle.jpg`,
+    },
+    {
+      id: 'curso6',
+      title: 'Irrigação Sustentável para Hortas',
+      description: 'Técnicas eficientes de irrigação para economizar água e manter sua horta saudável.',
+      image: `/images/irrigacao.jpg`,
+    },
+  ];
+
   return (
-    <div className="container mx-auto px-4">
-      <h1 className="text-3xl font-bold mt-4 text-center" aria-live="polite">
-        {t('Cursos Disponíveis')}
-      </h1>
-      {loading && <Spinner />}
-      {error && <p className="text-center text-recifeBlue" role="alert">{error}</p>}
-      <motion.div 
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-      >
-        {!loading && !error && courses.length > 0 ? (
-          courses.map((course) => (
+    <div 
+      className="min-h-screen flex flex-col items-center justify-center px-4 bg-cover bg-center"
+      style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/images/backimage4.jpg)` }}
+    >
+      <div className=" bg-opacity-90 p-8 rounded-lg shadow-lg max-w-6xl w-full text-center">
+        <h1 className="text-3xl font-bold mt-4 text-recifeBlue" aria-live="polite">
+          {t('Cursos Disponíveis')}
+        </h1>
+        {loading && <Spinner />}
+        {error && <p className="text-center text-red-500" role="alert">{error}</p>}
+
+        <motion.div 
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          {/* 🔹 Renderiza os cursos da API se existirem */}
+          {!loading && !error && courses.length > 0 && (
+            courses.map((course) => (
+              <motion.div 
+                key={course.id} 
+                initial={{ y: 20, opacity: 0 }} 
+                animate={{ y: 0, opacity: 1 }} 
+                transition={{ duration: 0.3 }}
+              >
+                <CourseCard course={course} />
+              </motion.div>
+            ))
+          )}
+
+          {/* 🔹 Renderiza a lista fixa de cursos */}
+          {fixedCourses.map((course) => (
             <motion.div 
               key={course.id} 
               initial={{ y: 20, opacity: 0 }} 
@@ -50,11 +109,9 @@ const CoursesPage = () => {
             >
               <CourseCard course={course} />
             </motion.div>
-          ))
-        ) : (
-          !loading && !error && <p className="text-center text-gray-500">{t('noCoursesAvailable')}</p>
-        )}
-      </motion.div>
+          ))}
+        </motion.div>
+      </div>
     </div>
   );
 };
