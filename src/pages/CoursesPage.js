@@ -68,6 +68,7 @@ const CoursesPage = () => {
   ];
 
   return (
+    <>
     <div 
       className="min-h-screen flex flex-col items-center justify-center px-4 bg-cover bg-center"
       style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/images/backimage4.jpg)` }}
@@ -107,12 +108,36 @@ const CoursesPage = () => {
               animate={{ y: 0, opacity: 1 }} 
               transition={{ duration: 0.3 }}
             >
-              <CourseCard course={course} />
+              <CourseCard 
+                course={{
+                  ...course,
+                  title: <h2 className="text-2xl font-bold text-recifeGold">{course.title}</h2>,
+                  description: <p className="text-lg text-recifeBlue font-semibold">{course.description}</p>,
+                }} 
+              />
             </motion.div>
           ))}
         </motion.div>
       </div>
     </div>
+
+    <footer className="w-full bg-recifeBlue text-recifeWhite text-center p-4 mt-18 bottom-0">
+        <p>&copy; 2025 Prefeitura do Recife</p>
+        <div className="flex justify-center space-x-4 mt-4">
+          {[ 
+            { href: "https://www.facebook.com/prefeituradorecife", src: "Facebook_logo.png", alt: "Facebook" },
+            { href: "https://x.com/prefrecife", src: "x.png", alt: "X" },
+            { href: "https://www.instagram.com/prefeiturarecife/", src: "instagram.jpeg", alt: "Instagram" },
+            { href: "https://www.youtube.com/channel/UCxMRq-Mv3UimnqOl6aRrM6Q", src: "youtube.png", alt: "YouTube" },
+            { href: "https://www.flickr.com/photos/prefeituradorecife/", src: "flickr.png", alt: "Flickr" },
+          ].map(({ href, src, alt }) => (
+            <a key={alt} href={href} target="_blank" rel="noopener noreferrer">
+              <img src={`${process.env.PUBLIC_URL}/images/${src}`} alt={alt} className="w-6 h-6" />
+            </a>
+          ))}
+        </div>
+      </footer>
+    </>
   );
 };
 

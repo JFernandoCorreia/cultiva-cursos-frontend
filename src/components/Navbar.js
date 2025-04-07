@@ -8,7 +8,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   // Definição das páginas que devem exibir a Navbar
-  const showNavbar = ['/sobre','/course', '/register', '/login', '/profile'].includes(location.pathname);
+  const showNavbar = ['/home','/login', '/register','/course','/sobre' ].includes(location.pathname);
 
   // Lista de links da navbar
   const navLinks = [
@@ -21,7 +21,7 @@ const Navbar = () => {
 
   return (
     showNavbar && (
-      <nav className="bg-recifeBlue text-recifeWhite p-4 shadow-lg">
+      <nav className="bg-recifeBlue text-recifeWhite p-4 shadow-lg z-50">
         <div className="container mx-auto flex justify-between items-center">
           
           {/* Logo/Home */}

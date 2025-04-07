@@ -1,32 +1,30 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-undef */
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
-import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { validarCPF } from '../utils/Validators';
 
-const RegisterPage = () => {
-  const [cpf, setCpf] = useState("");
-  const [cpfErro, setCpfErro] = useState("");
-  const [userData, setUserData] = useState({
-    name: '',
-    email: '',
-    cpf: '',
-    cep: '',
-    address: '',
-    neighborhood: '',
-    city: '',
-    state: '',
-    phone: '',
-    matricula: '',
-    setor: '',
-    password: ''
-  });
+  const RegisterPage = () => {
+    const [cpfErro, setCpfErro] = useState("");
+    const [userData, setUserData] = useState({
+      name: '',
+      email: '',
+      cpf: '',
+      cep: '',
+      address: '',
+      neighborhood: '',
+      city: '',
+      state: '',
+      phone: '',
+      matricula: '',
+      setor: '',
+      password: ''
+    });
 
-  const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+  const navigate = useNavigate();
+  const [setErrorMessage] = useState('');
+  const [setSuccessMessage] = useState('');
 
   const handleChange = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
@@ -128,8 +126,9 @@ const RegisterPage = () => {
   };
 
   return (
+    <>
     <div className="min-h-screen flex items-center justify-center bg-cover bg-center px-4" style={{ backgroundImage: "url('/images/backimage4.jpg')" }}>
-      <form onSubmit={handleSubmit} className="w-full max-w-md bg-recifeWhite p-8 rounded-lg shadow-lg space-y-4 z-10">
+      <form onSubmit={handleSubmit} className="w-full max-w-md bg-recifeWhite p-8 rounded-lg shadow-lg space-y-4 z-10 mt-10">
       <label htmlFor="name" className="block mb-2 text-recifeBlue text-xl font-semibold">
         Nome Completo <span className="text-red-500">*</span>
       </label>
@@ -206,9 +205,26 @@ const RegisterPage = () => {
           <button onClick={handleGovBrClick} className="bg-recifeBlue text-recifeWhite px-4 py-2 m-2 rounded-lg hover:bg-recifeGold hover:text-recifeBlue">Gov.br</button>
         </div>
       </form>
-
       <ToastContainer />
     </div>
+      
+    <footer className="w-full bg-recifeBlue text-recifeWhite text-center p-4 mt-18 bottom-0">
+        <p>&copy; 2025 Prefeitura do Recife</p>
+        <div className="flex justify-center space-x-4 mt-4">
+          {[ 
+            { href: "https://www.facebook.com/prefeituradorecife", src: "Facebook_logo.png", alt: "Facebook" },
+            { href: "https://x.com/prefrecife", src: "x.png", alt: "X" },
+            { href: "https://www.instagram.com/prefeiturarecife/", src: "instagram.jpeg", alt: "Instagram" },
+            { href: "https://www.youtube.com/channel/UCxMRq-Mv3UimnqOl6aRrM6Q", src: "youtube.png", alt: "YouTube" },
+            { href: "https://www.flickr.com/photos/prefeituradorecife/", src: "flickr.png", alt: "Flickr" },
+          ].map(({ href, src, alt }) => (
+            <a key={alt} href={href} target="_blank" rel="noopener noreferrer">
+              <img src={`${process.env.PUBLIC_URL}/images/${src}`} alt={alt} className="w-6 h-6" />
+            </a>
+          ))}
+        </div>
+      </footer>
+    </>
   );
 };
 

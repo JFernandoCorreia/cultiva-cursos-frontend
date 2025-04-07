@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-undef */
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
@@ -9,7 +7,7 @@ const LoginPage = () => {
   const [credentials, setCredentials] = useState({ email: '', password: '', matricula: '', setor: '' });
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate(); // Para navegação
-  const { loginWithRedirect, user, isAuthenticated } = useAuth0();
+  const { user, isAuthenticated } = useAuth0();
 
   // Validação do formulário
   const validateForm = () => {
@@ -67,6 +65,7 @@ const LoginPage = () => {
   };
 
   return (
+    <>
     <div className="min-h-screen flex items-center justify-center bg-cover bg-center px-4" style={{ backgroundImage: "url('/images/backimage4.jpg')" }}>
       <form
         onSubmit={handleSubmit}
@@ -121,6 +120,24 @@ const LoginPage = () => {
         </div>
       </form>
     </div>
+
+    <footer className="w-full bg-recifeBlue text-recifeWhite text-center p-4 mt-18 bottom-0">
+        <p>&copy; 2025 Prefeitura do Recife</p>
+        <div className="flex justify-center space-x-4 mt-4">
+          {[ 
+            { href: "https://www.facebook.com/prefeituradorecife", src: "Facebook_logo.png", alt: "Facebook" },
+            { href: "https://x.com/prefrecife", src: "x.png", alt: "X" },
+            { href: "https://www.instagram.com/prefeiturarecife/", src: "instagram.jpeg", alt: "Instagram" },
+            { href: "https://www.youtube.com/channel/UCxMRq-Mv3UimnqOl6aRrM6Q", src: "youtube.png", alt: "YouTube" },
+            { href: "https://www.flickr.com/photos/prefeituradorecife/", src: "flickr.png", alt: "Flickr" },
+          ].map(({ href, src, alt }) => (
+            <a key={alt} href={href} target="_blank" rel="noopener noreferrer">
+              <img src={`${process.env.PUBLIC_URL}/images/${src}`} alt={alt} className="w-6 h-6" />
+            </a>
+          ))}
+        </div>
+      </footer>
+    </>
   );
 };
 

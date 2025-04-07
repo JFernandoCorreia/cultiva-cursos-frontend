@@ -25,7 +25,7 @@ body, html, #root {
 /* Imagem de fundo otimizada */
 body {
   @apply bg-cover bg-fixed bg-center;
-  background-image: url('../public/images/flores.png');
+  background-image: url('../public/images/backimage4.jpg');
   background-repeat: no-repeat;
   min-height: 100vh;
   display: flex;

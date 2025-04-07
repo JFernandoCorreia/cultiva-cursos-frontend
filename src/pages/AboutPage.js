@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SobrePage = () => (
+const AboutPage = () => (
   <div 
     className="container mx-auto p-8 text-recifeBlue text-center bg-cover bg-center min-h-screen" 
     style={{ backgroundImage: "url('/images/backimage4.jpg')" }}
@@ -34,7 +34,24 @@ const SobrePage = () => (
         🌱💡 Inscreva-se agora e aprenda a cultivar um futuro mais sustentável! 🌿✨  
       </p>
     </div>
+
+    <footer className="w-full bg-recifeBlue text-recifeWhite text-center p-8 mt-16">
+        <p>&copy; 2025 Prefeitura do Recife</p>
+        <div className="flex justify-center space-x-4 mt-4">
+          {[
+            { href: "https://www.facebook.com/prefeituradorecife", src: "Facebook_logo.png", alt: "Facebook" },
+            { href: "https://x.com/prefrecife", src: "x.png", alt: "X" },
+            { href: "https://www.instagram.com/prefeiturarecife/", src: "instagram.jpeg", alt: "Instagram" },
+            { href: "https://www.youtube.com/channel/UCxMRq-Mv3UimnqOl6aRrM6Q", src: "youtube.png", alt: "YouTube" },
+            { href: "https://www.flickr.com/photos/prefeituradorecife/", src: "flickr.png", alt: "Flickr" },
+          ].map(({ href, src, alt }) => (
+            <a key={alt} href={href} target="_blank" rel="noopener noreferrer">
+              <img src={`${process.env.PUBLIC_URL}/images/${src}`} alt={alt} className="w-6 h-6" />
+            </a>
+          ))}
+        </div>
+      </footer>
   </div>
 );
 
-export default SobrePage;
+export default AboutPage;
