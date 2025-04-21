@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --primary-bg: #121212;
+  --primary-bg: hwb(200 93% 3%);
   --primary-text: #ffffff;
   --contrast-bg: black;
   --contrast-text: yellow;
@@ -22,16 +22,12 @@ body, html, #root {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Imagem de fundo otimizada */
 body {
-  @apply bg-cover bg-fixed bg-center;
-  background-image: url('../public/images/backimage4.jpg');
-  background-repeat: no-repeat;
+  background-color: var(--primary-bg);
+  color: var(--primary-text);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  opacity: 1;
-  filter: brightness(1.1);
 }
 
 /* Overlay para melhorar a visibilidade */
@@ -47,6 +43,7 @@ body {
 /* Ajustes no layout principal */
 main {
   @apply w-full p-5 flex-1 bg-transparent;
+  margin-top: 96px;
 }
 
 /* Estilos de acessibilidade */
@@ -66,21 +63,75 @@ main {
 
 /* Modo Alto Contraste */
 .high-contrast {
-  background-color: var(--contrast-bg);
-  color: var(--contrast-text);
+  --text-color: #FFFFFF;
+  --bg-color: #000000;
+  --primary-color: #FFFF00;
+  --secondary-color: #00FFFF;
+  color: var(--text-color) !important;
+  background-color: var(--bg-color) !important;
+}
+.high-contrast a,
+.high-contrast button,
+.high-contrast input {
+  color: var(--primary-color) !important;
+  border-color: var(--secondary-color) !important;
+}
+.high-contrast-element {
+  border: 2px solid var(--secondary-color) !important;
 }
 
-.high-contrast a {
-  color: var(--contrast-link);
+/* Foco visível para navegação por teclado */
+:focus {
+  outline: 3px solid #005fcc !important;
+  outline-offset: 2px;
 }
 
-.high-contrast button {
-  background-color: var(--contrast-text);
-  color: var(--contrast-bg);
+/* Esconder elementos apenas visualmente (para leitores de tela) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Texto descritivo para imagens */
+img:not([alt]) {
+  border: 5px solid red; /* Para ajudar a identificar imagens sem alt */
 }
 
 /* Logo responsivo */
 .logo-seau {
   width: 270px;
   height: auto;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.carousel-container .react-multiple-carousel__arrow {
+  z-index: 10 !important;
+  background: #0340a1;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  opacity: 0.8;
+  transition: background 0.3s;
+}
+
+.carousel-container .react-multiple-carousel__arrow:hover {
+  background: #f5d20b;
+}
+.carousel-container .react-multiple-carousel__arrow::before {
+  font-size: 16px !important;
+}
+.carousel-container .react-multiple-carousel__arrow--left {
+  left: 0 !important;
+}
+.carousel-container .react-multiple-carousel__arrow--right {
+  right: 0 !important;
 }
