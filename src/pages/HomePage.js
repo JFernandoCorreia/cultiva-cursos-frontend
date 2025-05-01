@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Carousel from 'react-multi-carousel';
@@ -28,7 +28,7 @@ class ErrorBoundary extends React.Component {
       return <div className="error-fallback p-4 bg-red-100 text-red-800">Algo deu errado. Por favor, recarregue a página.</div>;
     }
 
-    return this.props.children; 
+    return this.props.children;
   }
 }
 
@@ -39,8 +39,21 @@ const HomePage = () => {
   const [fontSize, setFontSize] = useState(1);
   const [isTextToSpeech, setIsTextToSpeech] = useState(false);
   const [currentSpeech, setCurrentSpeech] = useState(null);
-  const [vlibrasError, setVlibrasError] = useState(null);
   const accessibilityMenuRef = useRef(null);
+
+  // Função para leitura de texto
+  const readText = useCallback((text) => {
+    if (isTextToSpeech && 'speechSynthesis' in window) {
+      if (currentSpeech) {
+        window.speechSynthesis.cancel();
+      }
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'pt-BR';
+      utterance.rate = 1.0; // Velocidade da fala
+      window.speechSynthesis.speak(utterance);
+      setCurrentSpeech(utterance);
+    }
+  }, [isTextToSpeech, currentSpeech]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -57,7 +70,7 @@ const HomePage = () => {
       return () => {
         document.removeEventListener("mousedown", handleClickOutside);
       };
-    }, [isTextToSpeech]); // Add this closing bracket and dependency array for the useEffect
+    }, [isTextToSpeech, readText]);
 
   // Efeito para aplicar alto contraste em todo o documento
   useEffect(() => {
@@ -78,73 +91,6 @@ const HomePage = () => {
   useEffect(() => {
     document.documentElement.style.fontSize = `${fontSize}rem`;
   }, [fontSize]);
-
-  // Função para leitura de texto
-  const readText = (text) => {
-    if (isTextToSpeech && 'speechSynthesis' in window) {
-      if (currentSpeech) {
-        window.speechSynthesis.cancel();
-      }
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'pt-BR';
-      utterance.rate = 1.0; // Velocidade da fala
-      window.speechSynthesis.speak(utterance);
-      setCurrentSpeech(utterance);
-    }
-  };
-
-  // VLibras
-  useEffect(() => {
-    let script;
-    
-    const loadVLibras = () => {
-      try {
-        if (document.getElementById('vlibras-script')) return;
-
-        script = document.createElement("script");
-        script.id = 'vlibras-script';
-        script.src = "https://vlibras.gov.br/app/vlibras-plugin.js";
-        script.async = true;
-        
-        script.onload = () => {
-          try {
-            if (window.VLibras && typeof window.VLibras.Widget === 'function') {
-              new window.VLibras.Widget("https://vlibras.gov.br/app");
-            } else {
-              throw new Error("VLibras não está disponível ou incompleto");
-            }
-          } catch (e) {
-            console.error("Erro ao inicializar VLibras:", e);
-            setVlibrasError("Falha ao carregar recursos de acessibilidade");
-          }
-        };
-        
-        script.onerror = () => {
-          setVlibrasError("Falha ao carregar o VLibras");
-        };
-        
-        document.body.appendChild(script);
-      } catch (e) {
-        console.error("Erro no carregamento do VLibras:", e);
-        setVlibrasError(e.message);
-      }
-    };
-
-    // Carregar apenas se não houver erro anterior
-    if (!vlibrasError) {
-      loadVLibras();
-    }
-
-    return () => {
-      if (script && script.parentNode) {
-        script.parentNode.removeChild(script);
-      }
-      // Limpar o widget do VLibras se existir
-      if (window.VLibras && window.VLibras.Widget && window.VLibras.Widget.destroy) {
-        window.VLibras.Widget.destroy();
-      }
-    };
-  }, [vlibrasError]);
 
   const fixedCourses = [
     {
@@ -337,8 +283,8 @@ const HomePage = () => {
 
             <div className="w-full flex justify-center mb-0 sm:mb-3">
               <h1 
-                href="/" 
-                className="text-recifeBlue font-bold text-2xl md:text-4xl sm:text-3xl text-center mt-auto 
+                href="/"
+                className="text-recifeBlue font-bold text-2xl md:text-4xl sm:text-3xl text-center mt-auto
               break-words"
                 onMouseOver={() => readText("Flor da Cidade")}
           >
@@ -455,8 +401,9 @@ const HomePage = () => {
                           target="_blank"
                           rel="noopener noreferrer"
                           aria-label="Formulário de Cadastro no Google Forms"
-                          className="mt-2 inline-flex items-center gap-2 bg-recifeBlue text-white px-6 py-3 rounded-lg 
-                          shadow-md hover:bg-recifeGold hover:text-recifeBlue transition duration-300"
+                          className="mt-2 inline-flex items-center gap-2 bg-gradient-to-r from-recifeBlueLighter to-recifeBlue
+                           text-white px-6 py-3 rounded-lg
+                          shadow-md hover:from-recifeBlueLight hover:to-recifeBlueDark transition-all duration-300"
                           onMouseOver={() => readText("Cadastre-se Agora")}
                         >
                           <FaBookOpen />
@@ -504,7 +451,9 @@ const HomePage = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Formulário de Cadastro no Google Forms"
-                className="mt-6 inline-flex items-center gap-2 bg-recifeBlue text-white px-6 py-3 rounded-lg shadow-md hover:bg-recifeGold hover:text-recifeBlue transition duration-300"
+                className="mt-6 inline-flex items-center gap-2 bg-gradient-to-r from-recifeBlueLighter to-recifeBlue 
+                text-white px-6 py-3 rounded-lg shadow-md hover:from-recifeBlueLight hover:to-recifeBlueDark 
+                transition-all duration-300"
                 onMouseOver={() => readText("Cadastre-se Agora")}
               >
                 <FaUserPlus />
@@ -512,8 +461,8 @@ const HomePage = () => {
               </a>
             </section>
 
-            <section 
-              id="sobre" 
+            <section
+              id="sobre"
               className="w-full py-16 text-center transition-all duration-500 ease-in-out">
               <h2 
                 className="text-recifeBlue text-2xl sm:text-3xl md:text-4x1 break-words font-bold"
@@ -529,8 +478,10 @@ const HomePage = () => {
               >
                 {t("Conheça nossa missão de promover práticas agroecológicas e sustentáveis por meio da educação e capacitação.")}
               </p>
-              <Link to="/sobre" 
-                    className="mt-6 inline-flex items-center gap-2 bg-recifeBlue text-white px-6 py-3 rounded-lg shadow-md hover:bg-recifeGold hover:text-recifeBlue transition duration-300"
+              <Link to="/sobre"
+                    className="mt-6 inline-flex items-center gap-2 bg-gradient-to-r from-recifeBlueLighter to-recifeBlue 
+                    text-white px-6 py-3 rounded-lg shadow-md hover:from-recifeBlueLight hover:to-recifeBlueDark 
+                    transition-all duration-300"
                     onFocus={() => readText("Conhecer Mais")}
                     onMouseOver={() => readText("Conhecer Mais")}>
                     
@@ -619,22 +570,6 @@ const HomePage = () => {
             ))}
           </div>
         </footer>
-
-        {/* Widget VLibras */ }
-        {!vlibrasError && (
-          <div vw="true" className="enabled">
-            <div vw-access-button="true" className="active"></div>
-            <div vw-plugin-wrapper="true">
-              <div className="vw-plugin-top-wrapper"></div>
-            </div>
-          </div>
-        )}
-        
-        {vlibrasError && (
-          <div className="fixed bottom-20 left-4 bg-yellow-100 text-yellow-800 p-2 rounded text-sm">
-            Aviso: {vlibrasError}
-          </div>
-        )}
       </div>
     </ErrorBoundary>
   );
